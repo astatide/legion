@@ -1,8 +1,8 @@
 use fileParser;
+use systemBuilder;
 
 proc main {
-  var l = new owned fileParser.Loader();
-  var s = l.loadXYZ("pyridine.xyz");
-  writeln(s.coords);
-  writeln(s.atoms);
+  var b = new owned systemBuilder.Build();
+  var s = b.build();
+  writeln(s);
 }

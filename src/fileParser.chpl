@@ -4,7 +4,7 @@
 use IO;
 use topology;
 
-class Loader {
+class fileLoader {
   // we shouldn't need to init anything, yeah?
   var coordFileName: string;
   var coordFileType: string;
@@ -14,19 +14,19 @@ class Loader {
   var z: [0..-1] real;
   var atoms: [0..-1] string;
   var name: string;
+  var n: int;
+  var molecules: [0..-1] topology.molecule;
+  var nMolecules: int;
 
   proc loadXYZ(fileName: string) {
     // first, we'll load up the file... we should catch the error.
     var style: iostyle;
-    //style.string_format = 1;
-    //style.str_style = stringStyleTerminated(10 : uint(8));
-    //style = new iostyle(str_style = -256|0x10);
     var f = open(fileName, iomode.r, hints=IOHINT_SEQUENTIAL);
     var r = f.reader();
-    var n: int = -2;
+    n = -2;
     var givenN: int;
-    //var line: string;
     var coord: [0..2] real;
+    var lastMolecule: string;
     // iterate through the lines
     for line in f.lines() {
       // first line is a comment, second is the number of atoms we _think_ are there.
@@ -53,9 +53,16 @@ class Loader {
     if n != givenN {
       writeln("Hey, your atoms don't match.");
     }
-    var system = new shared topology.System(n);
-    system.setCoords(x,y,z);
-    system.setAtoms(atoms);
-    return system;
+    this.nAtoms = n;
+    var m = new topology.molecule();
+    m.name = name;
+    // just set to the number of atoms.  They're the same numbers.
+    var mA: [0..n-1] int;
+    for i in 0..n-1 {
+      mA[i] = i;
+    }
+    m.setAtoms(mA);
+    this.molecules.push_back(m);
+    this.nMolecules = 1;
   }
 }
