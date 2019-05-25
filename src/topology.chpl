@@ -22,9 +22,9 @@ record molecule {
 class System {
   var n: int;
   var nMolecules: int;
-  var coords: [0..n-1, 0..2] real;
-  var atoms: [0..n-1] string;
-  var molecules: [0..nMolecules-1] molecule;
+  var coords: [1..n, 1..3] real;
+  var atoms: [1..n] string;
+  var molecules: [1..nMolecules] molecule;
   var currentAtoms: int;
   var currentMolecules: int;
 
@@ -34,43 +34,43 @@ class System {
     this.nMolecules = nMolecules;
   }
 
-  proc setCoords(x: [0..n-1] real, y: [0..n-1] real, z: [0..n-1] real) {
-    for i in 0..n-1 {
-      coords[i,0] = x[i];
-      coords[i,1] = y[i];
-      coords[i,2] = z[i];
+  proc setCoords(x: [1..n] real, y: [1..n] real, z: [1..n] real) {
+    for i in 1..n {
+      coords[i,1] = x[i];
+      coords[i,2] = y[i];
+      coords[i,3] = z[i];
     }
     currentAtoms = n;
   }
 
   proc addCoords(x: [] real, y: [] real, z: [] real) {
     var j = currentAtoms;
-    for i in 0..x.domain.size-1 {
-      coords[i+j,0] = x[i];
-      coords[i+j,1] = y[i];
-      coords[i+j,2] = z[i];
+    for i in 1..x.domain.size {
+      coords[i+j,1] = x[i];
+      coords[i+j,2] = y[i];
+      coords[i+j,3] = z[i];
     }
   }
 
   proc setAtoms(a: [] string) {
-    for i in 0..n-1 {
-      atoms[i] = a[i+1];
+    for i in 1..n {
+      atoms[i] = a[i];
     }
     currentAtoms = n;
   }
 
   proc addAtoms(a: [] string) {
     var j = currentAtoms;
-    for i in 0..a.domain.size-1 {
+    for i in 1..a.domain.size {
       atoms[i+j] = a[i];
     }
   }
 
   proc addMolecules(m: [] molecule) {
     var j = currentMolecules;
-    for i in 0..m.domain.size-1 {
+    for i in 1..m.domain.size {
       molecules[i+j] = m[i];
-      molecules[i+j].startingAtom += j;
+      molecules[i+j].startingAtom += currentAtoms;
     }
   }
 

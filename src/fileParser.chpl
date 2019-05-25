@@ -9,14 +9,24 @@ class fileLoader {
   var coordFileName: string;
   var coordFileType: string;
   var nAtoms: int;
-  var x: [0..-1] real;
-  var y: [0..-1] real;
-  var z: [0..-1] real;
-  var atoms: [0..-1] string;
+  var x: [1..0] real;
+  var y: [1..0] real;
+  var z: [1..0] real;
+  var atoms: [1..0] string;
   var name: string;
   var n: int;
-  var molecules: [0..-1] topology.molecule;
+  var molecules: [1..0] topology.molecule;
   var nMolecules: int;
+
+  proc center(c: int = 1) {
+    // n is for which atom to center on.
+    var iX = x[c], iY = y[c], iZ = z[c];
+    for i in 1..nAtoms {
+      x[i] -= iX;
+      y[i] -= iY;
+      z[i] -= iZ;
+    }
+  }
 
   proc loadXYZ(fileName: string) {
     // first, we'll load up the file... we should catch the error.
@@ -25,7 +35,7 @@ class fileLoader {
     var r = f.reader();
     n = -2;
     var givenN: int;
-    var coord: [0..2] real;
+    var coord: [1..3] real;
     var lastMolecule: string;
     // iterate through the lines
     for line in f.lines() {
@@ -38,13 +48,13 @@ class fileLoader {
         givenN = line: int;
         n += 1;
       } else {
-        var lineArray: [0..-1] string;
-        for (i,s) in zip(0.., line.split()) {
+        var lineArray: [1..0] string;
+        for (i,s) in zip(1.., line.split()) {
           select i {
-            when 0 do atoms.push_back(s);
-            when 1 do x.push_back(s : real);
-            when 2 do y.push_back(s : real);
-            when 3 do z.push_back(s : real);
+            when 1 do atoms.push_back(s);
+            when 2 do x.push_back(s : real);
+            when 3 do y.push_back(s : real);
+            when 4 do z.push_back(s : real);
           }
         }
         n += 1;
@@ -57,8 +67,8 @@ class fileLoader {
     var m = new topology.molecule();
     m.name = name;
     // just set to the number of atoms.  They're the same numbers.
-    var mA: [0..n-1] int;
-    for i in 0..n-1 {
+    var mA: [1..n] int;
+    for i in 1..n {
       mA[i] = i;
     }
     m.setAtoms(mA);

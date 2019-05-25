@@ -12,18 +12,19 @@ class Build {
   proc build() {
     // look, just load up pyridine a few times and have it go.
     var nFiles: int = 5;
-    var parsedFiles: [0..nFiles-1] fileParser.fileLoader;
+    var parsedFiles: [1..nFiles] fileParser.fileLoader;
     var nAtoms: int;
     var nMolecules: int;
-    for i in 0..nFiles-1 {
+    for i in 1..nFiles {
       parsedFiles[i] = new unmanaged fileParser.fileLoader();
       parsedFiles[i].loadXYZ("pyridine.xyz");
+      parsedFiles[i].center();
       nAtoms += parsedFiles[i].nAtoms;
       nMolecules += parsedFiles[i].nMolecules;
     }
     // hooray we have loaded the files yay
     var system = new shared topology.System(nAtoms, nMolecules);
-    for i in 0..nFiles-1 {
+    for i in 1..nFiles {
       var x = parsedFiles[i].x;
       var y = parsedFiles[i].y;
       var z = parsedFiles[i].z;
