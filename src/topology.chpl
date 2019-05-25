@@ -74,6 +74,29 @@ class System {
     }
   }
 
+  proc center(c: int = 1) {
+    // n is for which atom to center on.
+    // this centers the entire system on one.
+    var iX = coords[c,1], iY = coords[c,2], iZ = coords[c,3];
+    for i in 1..n {
+      coords[i,1] -= iX;
+      coords[i,2] -= iY;
+      coords[i,3] -= iZ;
+    }
+  }
+
+  proc center(sA: int = 1, m: molecule) {
+    // n is for which atom to center on.
+    // this centers just the molecule.
+    var c = m.atoms[sA];
+    var iX = coords[c,1], iY = coords[c,2], iZ = coords[c,3];
+    for i in m.startingAtom..m.startingAtom+m.nAtoms {
+      coords[i,1] -= iX;
+      coords[i,2] -= iY;
+      coords[i,3] -= iZ;
+    }
+  }
+
   /*
   iter molecules {
     // give to us the molecules~

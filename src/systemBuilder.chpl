@@ -18,7 +18,7 @@ class Build {
     for i in 1..nFiles {
       parsedFiles[i] = new unmanaged fileParser.fileLoader();
       parsedFiles[i].loadXYZ("pyridine.xyz");
-      parsedFiles[i].center();
+      //parsedFiles[i].center();
       nAtoms += parsedFiles[i].nAtoms;
       nMolecules += parsedFiles[i].nMolecules;
     }
@@ -36,6 +36,7 @@ class Build {
       system.currentAtoms += parsedFiles[i].nAtoms;
       system.currentMolecules += parsedFiles[i].nMolecules;
     }
+    system.center();
     return system;
   }
 }

@@ -18,16 +18,6 @@ class fileLoader {
   var molecules: [1..0] topology.molecule;
   var nMolecules: int;
 
-  proc center(c: int = 1) {
-    // n is for which atom to center on.
-    var iX = x[c], iY = y[c], iZ = z[c];
-    for i in 1..nAtoms {
-      x[i] -= iX;
-      y[i] -= iY;
-      z[i] -= iZ;
-    }
-  }
-
   proc loadXYZ(fileName: string) {
     // first, we'll load up the file... we should catch the error.
     var style: iostyle;
