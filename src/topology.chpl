@@ -96,13 +96,4 @@ class System {
       coords[i,3] -= iZ;
     }
   }
-
-  /*
-  iter molecules {
-    // give to us the molecules~
-    // yesss
-    for i in 0..nMolecules-1 {
-      yield this.molecules[i];
-    }
-  }*/
 }

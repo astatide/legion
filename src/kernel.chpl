@@ -27,6 +27,4 @@
 // Keep in mind that the point of this isn't to write out an accurate
 // potential function yet; we just want to make sure it works.
 
-proc langevinTestEquation() {
-
-}
+proc langevinTestEquation() {}
