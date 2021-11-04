@@ -3,19 +3,20 @@
 
 use IO;
 use topology;
+use List;
 
 class fileLoader {
   // we shouldn't need to init anything, yeah?
   var coordFileName: string;
   var coordFileType: string;
   var nAtoms: int;
-  var x: [1..0] real;
-  var y: [1..0] real;
-  var z: [1..0] real;
-  var atoms: [1..0] string;
+  var x: list(real);
+  var y: list(real);
+  var z: list(real);
+  var atoms: list(string);
   var name: string;
   var n: int;
-  var molecules: [1..0] topology.molecule;
+  var molecules: list(topology.molecule);
   var nMolecules: int;
 
   proc loadXYZ(fileName: string) {
@@ -40,16 +41,18 @@ class fileLoader {
       } else {
         var lineArray: [1..0] string;
         for (i,s) in zip(1.., line.split()) {
+          writeln(i,s);
           select i {
-            when 1 do atoms.push_back(s);
-            when 2 do x.push_back(s : real);
-            when 3 do y.push_back(s : real);
-            when 4 do z.push_back(s : real);
+            when 1 do {atoms.append(s);}
+            when 2 do {x.append(s : real);}
+            when 3 do {y.append(s : real);}
+            when 4 do {z.append(s : real);}
           }
         }
         n += 1;
       }
     }
+    writeln(this.x);
     if n != givenN {
       writeln("Hey, your atoms don't match.");
     }
@@ -62,7 +65,7 @@ class fileLoader {
       mA[i] = i;
     }
     m.setAtoms(mA);
-    this.molecules.push_back(m);
+    this.molecules.append(m);
     this.nMolecules = 1;
   }
 }

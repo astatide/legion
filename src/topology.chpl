@@ -1,4 +1,5 @@
 // this stores our coordinates and our topology
+use List;
 
 record molecule {
   var name: string;
@@ -43,9 +44,9 @@ class System {
     currentAtoms = n;
   }
 
-  proc addCoords(x: [] real, y: [] real, z: [] real) {
+  proc addCoords(x: list(real), y: list(real), z: list(real)) {
     var j = currentAtoms;
-    for i in 1..x.domain.size {
+    for i in 1..x.size-1 {
       coords[i+j,1] = x[i];
       coords[i+j,2] = y[i];
       coords[i+j,3] = z[i];
@@ -59,16 +60,16 @@ class System {
     currentAtoms = n;
   }
 
-  proc addAtoms(a: [] string) {
+  proc addAtoms(a: list(string)) {
     var j = currentAtoms;
-    for i in 1..a.domain.size {
+    for i in 1..a.size-1 {
       atoms[i+j] = a[i];
     }
   }
 
-  proc addMolecules(m: [] molecule) {
+  proc addMolecules(m: list(molecule)) {
     var j = currentMolecules;
-    for i in 1..m.domain.size {
+    for i in 1..m.size-1 {
       molecules[i+j] = m[i];
       molecules[i+j].startingAtom += currentAtoms;
     }

@@ -1,0 +1,8 @@
+{
+    "name": "Legion",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "chapel",
+    "workspaceFolder": "/workspace",
+    "forwardPorts": [],
+    "extensions": ["dbaeumer.vscode-eslint", "orta.vscode-jest", "esbenp.prettier-vscode", "mongodb.mongodb-vscode", "sainnhe.gruvbox-material", "ms-azuretools.vscode-azurefunctions", "ms-vscode.vscode-typescript-next", "frumbasjt.chapel", "ms-azuretools.vscode-docker"]
+  }

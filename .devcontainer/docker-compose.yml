@@ -1,0 +1,12 @@
+---
+version: "2"
+services:
+  chapel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace
+    command: bash -c "sleep infinity"
+    environment:
+      - DEV=1

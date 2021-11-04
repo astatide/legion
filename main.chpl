@@ -11,9 +11,9 @@ proc +=(ref a: aTest, b: int) {
 }
 
 proc main {
-  //ar b = new owned systemBuilder.Build();
-  //var s = b.build();
-  //writeln(s);
+  var b = new owned systemBuilder.Build();
+  var s = b.build();
+  writeln(s);
   var n: int = 500000;
   var basicArray: [1..n,1..3] real;
   var atomArray: [1..n] aTest;
