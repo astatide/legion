@@ -1,3 +1,5 @@
+use LinearAlgebra;
+
 record tensor {
     var rank: int = 0;
     var degree: int = 3;
@@ -55,10 +57,8 @@ operator +=(ref a: matrix, b: [] real) {
 // Matrix and Vectors!  Huge assumptions about shapes being compatible here.
 // I'm _sure_ there's a better way to do this than by just doing it element wise, but hey, what do I know.
 
-//operator +(a: matrix, b: vector) {
-  //var c = new vector(shape = b.shape);
-  //for i in c.shape[0] {
-  //  c.data[i] = sum(b.data[..] * a.data[..,i])
-  //}
-  //return c;
-//}
+operator +(a: matrix, b: vector) {
+  var c = new vector(shape = b.shape);
+  c = dot(a.data, b.data);
+  return c;
+}
