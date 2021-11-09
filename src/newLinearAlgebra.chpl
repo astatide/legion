@@ -21,6 +21,8 @@ record matrix {
 
 // Now, the operator overrides
 
+// Vectors!
+
 operator +(a: vector, b: vector) {
   var c = new vector(shape = a.shape);
   //for i in 0..a.shape[0]-1 {
@@ -29,6 +31,8 @@ operator +(a: vector, b: vector) {
   c.data = a.data + b.data;
   return c;
 }
+
+// Matrix!
 
 operator +(a: matrix, b: matrix) {
   var c = new matrix(shape = a.shape);
@@ -47,3 +51,14 @@ operator +=(ref a: matrix, b: real) {
 operator +=(ref a: matrix, b: [] real) {
     a.data += b;
 }
+
+// Matrix and Vectors!  Huge assumptions about shapes being compatible here.
+// I'm _sure_ there's a better way to do this than by just doing it element wise, but hey, what do I know.
+
+//operator +(a: matrix, b: vector) {
+  //var c = new vector(shape = b.shape);
+  //for i in c.shape[0] {
+  //  c.data[i] = sum(b.data[..] * a.data[..,i])
+  //}
+  //return c;
+//}

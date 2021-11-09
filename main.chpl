@@ -2,6 +2,7 @@ use fileParser;
 use systemBuilder;
 use Time;
 use newLinearAlgebra;
+use LinearAlgebra;
 
 record aTest {
   var coords: [1..3] real;
@@ -77,6 +78,15 @@ proc main {
   ft = getCurrentTime() - it;
   writeln("vector write took ", ft);
   writeln(basicArray.size);
+
+  var vec = Vector(3, eltType=int) + 1;
+  var mat = Matrix(3, 3, eltType=int) + 2;
+  writeln(vec);
+  writeln("Mat!");
+  writeln(mat);
+  writeln(dot(mat, vec));
+
+  writeln(dot(j.data, x.data));
 
   
 }

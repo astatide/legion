@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-venv \
     python3-dev \
     wget \
+    libblas-dev liblapack-dev \
     && rm -rf /var/lib/apt/lists/*
 
 ENV CHPL_VERSION 1.25.0
