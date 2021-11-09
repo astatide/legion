@@ -1,12 +1,13 @@
 use fileParser;
 use systemBuilder;
 use Time;
+use newLinearAlgebra;
 
 record aTest {
   var coords: [1..3] real;
 }
 
-proc +=(ref a: aTest, b: int) {
+operator +=(ref a: aTest, b: int) {
   a.coords[1..3] += b;
 }
 
@@ -21,14 +22,14 @@ proc main {
   var ft: real;
   writeln("testing basic write");
   it = getCurrentTime();
-  for i in 1..n {
+  forall i in 1..n {
     basicArray[i,1..3] += i;
   }
   ft = getCurrentTime() - it;
   writeln("basic write took ", ft);
   writeln("testing record write");
   it = getCurrentTime();
-  for i in 1..n {
+  forall i in 1..n {
     atomArray[i] += i;
   }
   ft = getCurrentTime() - it;
@@ -39,4 +40,43 @@ proc main {
   basicArray[1..n,1..3] += 1;
   ft = getCurrentTime() - it;
   writeln("vector write took ", ft);
+
+  writeln("NEW TEST!");
+
+  var x: vector = new vector();
+  var y: vector = new vector();
+
+  x.data = [1.0,2.0,3.0];
+  y.data = [4.0,5.0,6.0];
+  writeln(x+y);
+
+  var j: matrix = new matrix();
+  var k: matrix = new matrix();
+
+  j.data = 1;
+  k.data = 2;
+  writeln(j+k);
+
+  var newArray: matrix = new matrix(shape = (n, 3));
+  var twoArray: matrix = new matrix(shape = (n, 3));
+  twoArray.data += 12;
+  twoArray.data[10,..] = 4;
+  twoArray.data[100..10000,1] = 5; 
+
+  writeln("testing matrix write");
+  it = getCurrentTime();
+  // almost never going to do this, however
+  newArray += basicArray;
+  ft = getCurrentTime() - it;
+  writeln("vector write took ", ft);
+
+    writeln("testing matrix write");
+  it = getCurrentTime();
+  // almost never going to do this, however
+  basicArray += basicArray;
+  ft = getCurrentTime() - it;
+  writeln("vector write took ", ft);
+  writeln(basicArray.size);
+
+  
 }

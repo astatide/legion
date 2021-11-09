@@ -66,6 +66,7 @@ class fileLoader {
     }
     m.setAtoms(mA);
     this.molecules.append(m);
+    writeln(m);
     this.nMolecules = 1;
   }
 }

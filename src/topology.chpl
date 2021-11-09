@@ -20,11 +20,32 @@ record molecule {
   }
 }
 
+record Topology {
+  var n: int;
+  var atomMass: [1..n] real;
+  var bondedForces: [1..n,1..n] owned forceParameters;
+}
+
+class forceParameters {
+  var alpha: real;
+  var beta: real;
+
+  proc calculate() : real {
+
+  }
+}
+
+class distance : forceParameters {
+  var test: real;
+}
+
+
 class System {
   var n: int;
   var nMolecules: int;
   var coords: [1..n, 1..3] real;
   var atoms: [1..n] string;
+  var atomMass: [1..n] real;
   var molecules: [1..nMolecules] molecule;
   var currentAtoms: int;
   var currentMolecules: int;
