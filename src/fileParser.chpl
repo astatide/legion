@@ -1,8 +1,10 @@
+
 // this is used for basic I/O, such as loading up files.
 // right now, it'll just load XYZ files.
 
 use IO;
-use topology;
+use atom;
+use groupings;
 use List;
 
 class fileLoader {
@@ -16,7 +18,7 @@ class fileLoader {
   var atoms: list(string);
   var name: string;
   var n: int;
-  var molecules: list(topology.molecule);
+  var molecules: list(groupings.molecule);
   var nMolecules: int;
 
   proc loadXYZ(fileName: string) {
@@ -57,14 +59,14 @@ class fileLoader {
       writeln("Hey, your atoms don't match.");
     }
     this.nAtoms = n;
-    var m = new topology.molecule();
+    var m = new groupings.molecule();
     m.name = name;
     // just set to the number of atoms.  They're the same numbers.
     var mA: [1..n] int;
     for i in 1..n {
       mA[i] = i;
     }
-    m.setAtoms(mA);
+    //m.setAtoms(mA);
     this.molecules.append(m);
     writeln(m);
     this.nMolecules = 1;

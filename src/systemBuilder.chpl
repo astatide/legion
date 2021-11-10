@@ -1,5 +1,5 @@
 use fileParser;
-use topology;
+use system as topology;
 
 // we assume everything in the XYZ is one molecule, for the moment.
 // we can ultimately put in some logic about bond length or an END

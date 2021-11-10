@@ -13,6 +13,6 @@ legion:
 	chpl -o legion -L /usr/local/lib -I /usr/local/include $(BLAS) -M src/ main.chpl --ccflags "-w -lpthread -I $(NUMPY) $(PYTHONC)" --ldflags "-lpthread -v $(PYTHONL)"
 
 legionNoPy:
-	chpl -o legion -L /usr/local/lib -I /usr/local/include $(BLAS) -M src/ main.chpl
+	chpl -o legion -L /usr/local/lib -I /usr/local/include $(BLAS) -M src -M src/topology main.chpl
 
 
