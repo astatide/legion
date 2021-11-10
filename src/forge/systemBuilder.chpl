@@ -34,8 +34,8 @@ class Build {
       //writeln(x);
       writeln(parsedFiles[i]!);
       system.addCoords(x,y,z);
-      system.addAtoms(a);
-      system.addMolecules(m);
+      //system.addAtoms(a);
+      //system.addMolecules(m);
       system.currentAtoms += parsedFiles[i]!.nAtoms;
       system.currentMolecules += parsedFiles[i]!.nMolecules;
     }

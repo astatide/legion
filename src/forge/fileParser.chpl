@@ -3,8 +3,9 @@
 // right now, it'll just load XYZ files.
 
 use IO;
-use atom;
-use groupings;
+use particles as Particles;
+use newLinearAlgebra;
+use groupings as Groupings;
 use List;
 
 class fileLoader {
@@ -15,10 +16,11 @@ class fileLoader {
   var x: list(real);
   var y: list(real);
   var z: list(real);
-  var atoms: list(string);
+  var atoms: list(Particles.Atom);
+  var atomNames: list(string);
   var name: string;
   var n: int;
-  var molecules: list(groupings.molecule);
+  var molecules: list(Groupings.molecule);
   var nMolecules: int;
 
   proc loadXYZ(fileName: string) {
@@ -45,12 +47,17 @@ class fileLoader {
         for (i,s) in zip(1.., line.split()) {
           writeln(i,s);
           select i {
-            when 1 do {atoms.append(s);}
+            when 1 do {atomNames.append(s);}
             when 2 do {x.append(s : real);}
             when 3 do {y.append(s : real);}
             when 4 do {z.append(s : real);}
           }
         }
+        
+        var a = new Particles.Atom(name=atomNames[n]);
+        a.pos.data = [x[n],y[n],z[n]];
+        a.positionInMolecule = n;
+        atoms.append(a);
         n += 1;
       }
     }
@@ -59,7 +66,7 @@ class fileLoader {
       writeln("Hey, your atoms don't match.");
     }
     this.nAtoms = n;
-    var m = new groupings.molecule();
+    var m = new Groupings.molecule();
     m.name = name;
     // just set to the number of atoms.  They're the same numbers.
     var mA: [1..n] int;
@@ -67,6 +74,9 @@ class fileLoader {
       mA[i] = i;
     }
     //m.setAtoms(mA);
+    for i in 0..n-1 {
+      m += atoms[i];
+    }
     this.molecules.append(m);
     writeln(m);
     this.nMolecules = 1;
