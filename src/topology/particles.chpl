@@ -1,5 +1,5 @@
 use List;
-use newLinearAlgebra;
+use recordCore;
 
 record Atom {
   var name: string;

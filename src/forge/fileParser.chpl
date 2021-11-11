@@ -4,7 +4,7 @@
 
 use IO;
 use particles as Particles;
-use newLinearAlgebra;
+use recordCore;
 use groupings as Groupings;
 use List;
 
@@ -55,7 +55,7 @@ class fileLoader {
         }
         
         var a = new Particles.Atom(name=atomNames[n]);
-        a.pos.data = [x[n],y[n],z[n]];
+        a.pos = [x[n],y[n],z[n]];
         a.positionInMolecule = n;
         atoms.append(a);
         n += 1;

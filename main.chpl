@@ -1,7 +1,7 @@
 use fileParser;
 use systemBuilder;
 use Time;
-use newLinearAlgebra;
+use recordCore;
 
 record aTest {
   var coords: [1..3] real;
@@ -17,6 +17,7 @@ proc main {
   writeln(s);
   var n: int = 500000;
   var basicArray: [1..n,1..3] real;
+  var testArray: [1..n,1..3] real;
   var atomArray: [1..n] aTest;
   var it: real;
   var ft: real;
@@ -30,14 +31,14 @@ proc main {
   writeln("testing record write");
   it = getCurrentTime();
   forall i in 1..n {
-    atomArray[i] += i;
+    atomArray[i] += 1;
   }
   ft = getCurrentTime() - it;
   writeln("atom write took ", ft);
   writeln("testing vector write");
   it = getCurrentTime();
   // almost never going to do this, however
-  basicArray[1..n,1..3] += 1;
+  testArray[1..n,1..3] += basicArray;
   ft = getCurrentTime() - it;
   writeln("vector write took ", ft);
 
@@ -77,6 +78,8 @@ proc main {
   ft = getCurrentTime() - it;
   writeln("vector write took ", ft);
   writeln(basicArray.size);
+
+  writeln(x[1]);
 
   //var vec = Vector(3, eltType=int) + 1;
   //var mat = Matrix(3, 3, eltType=int) + 2;

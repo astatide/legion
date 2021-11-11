@@ -2,7 +2,7 @@ NUMPY:=`python3 -c 'import numpy.distutils.misc_util as m; print(m.get_numpy_inc
 PYTHONC:=`python3-config --cflags`
 PYTHONL:=`python3-config --ldflags`
 BLAS:=-I /usr/include/x86_64-linux-gnu -L /usr/lib/x86_64-linux-gnu -lblas
-MODULES:=-M src -M src/topology -M src/forge
+MODULES:=-M src -M src/topology -M src/forge -M src/numericalCores
 FILES:=main.chpl #src/forge/fileParser.chpl src/forge/systemBuilder.chpl src/topology/atom.chpl src/topology/groupings.chpl src/topology/system.chpl
 
 all:

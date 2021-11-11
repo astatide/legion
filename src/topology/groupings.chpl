@@ -32,23 +32,3 @@ record molecule {
 operator +=(ref mol: molecule, ref a: Particles.Atom) {
   mol.add(a);
 }
-
-record oldMolecule {
-  var name: string;
-  var nAtoms: int;
-  var startingAtom: int;
-
-
-  iter atoms {
-    // this will yield our atoms.
-    for i in startingAtom..startingAtom+nAtoms-1 {
-      yield i;
-    }
-  }
-
-  proc setAtoms(a: [] int) {
-    this.nAtoms = a.size;
-    // remember, this is Chapel, so things start with 1 by default yay.
-    this.startingAtom = a[1];
-  }
-}
