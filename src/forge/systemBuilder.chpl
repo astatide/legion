@@ -1,5 +1,8 @@
 use fileParser;
-use system as topology;
+use system as SystemMod;
+use Topology.Particles as Particles;
+use Topology.Groups as Groupings;
+
 
 // we assume everything in the XYZ is one molecule, for the moment.
 // we can ultimately put in some logic about bond length or an END
@@ -9,7 +12,7 @@ use system as topology;
 class Build {
   // this is responsible for construction of a system.
   // it loads up the files we tell it to, and then goes from there.
-  proc build() {
+  proc oldbuild() {
     // look, just load up pyridine a few times and have it go.
     var nFiles: int = 5;
     var parsedFiles: [1..nFiles] unmanaged fileParser.fileLoader?;
@@ -23,7 +26,7 @@ class Build {
       nMolecules += parsedFiles[i]!.nMolecules;
     }
     // hooray we have loaded the files yay
-    var system = new shared topology.System(nAtoms, nMolecules);
+    var system = new shared SystemMod.System(nAtoms, nMolecules);
     for i in 1..nFiles {
       //var x = parsedFiles[i]!.x;
       //var y = parsedFiles[i]!.y;
@@ -41,5 +44,22 @@ class Build {
     }
     system.center();
     return system;
+  }
+
+  proc build() {
+    return buildMoleculeFromXYZ();
+  }
+
+  proc buildMoleculeFromXYZ() {
+    // look, just load up pyridine a few times and have it go.
+    //var parsedFiles: owned fileParser.fileLoader?;
+    var nAtoms: int;
+    var nMolecules: int;
+    var parsedFiles = new owned fileParser.fileLoader();
+    var newMolecule: Groupings.molecule = new Groupings.molecule();
+    for atom in parsedFiles.yieldAtomsFromXYZ('pyridine.xyz') {
+      newMolecule += atom;
+    }
+    return newMolecule;
   }
 }

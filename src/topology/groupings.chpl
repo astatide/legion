@@ -24,11 +24,20 @@ record molecule {
 
   proc add(ref a: Particles.Atom) {
     a.positionInMolecule = atoms.size;
-    a.parentMoleculeUUID = UUID;
+    a.parentMoleculeUUID = '12'; //UUID;
     atoms.append(a);
   }
 }
 
 operator +=(ref mol: molecule, ref a: Particles.Atom) {
   mol.add(a);
+}
+
+operator +(ref mol: molecule, a: Particles.Atom) {
+  var newMol: molecule = mol;
+  var newAtom: Particles.Atom = a;
+  // why do we need explicit copies of this record?  Hmmmm.  Odd.
+  // oh, maybe cause... try it now, Audrey.
+  newMol.add(a);
+  return newMol;
 }
