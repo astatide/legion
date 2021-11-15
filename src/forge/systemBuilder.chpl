@@ -25,15 +25,15 @@ class Build {
     // hooray we have loaded the files yay
     var system = new shared topology.System(nAtoms, nMolecules);
     for i in 1..nFiles {
-      var x = parsedFiles[i]!.x;
-      var y = parsedFiles[i]!.y;
-      var z = parsedFiles[i]!.z;
+      //var x = parsedFiles[i]!.x;
+      //var y = parsedFiles[i]!.y;
+      //var z = parsedFiles[i]!.z;
       var m = parsedFiles[i]!.molecules;
       var a = parsedFiles[i]!.atoms;
-      writeln("Here's our x!");
+      //writeln("Here's our x!");
       //writeln(x);
       writeln(parsedFiles[i]!);
-      system.addCoords(x,y,z);
+      //system.addCoords(x,y,z);
       //system.addAtoms(a);
       //system.addMolecules(m);
       system.currentAtoms += parsedFiles[i]!.nAtoms;

@@ -1,5 +1,5 @@
 use List;
-use recordCore;
+use Numerical.RecordCore;
 
 record Atom {
   var name: string;

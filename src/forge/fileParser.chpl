@@ -3,9 +3,9 @@
 // right now, it'll just load XYZ files.
 
 use IO;
-use particles as Particles;
+use Topology.Particles as Particles;
 use recordCore;
-use groupings as Groupings;
+use Topology.Groups as Groupings;
 use List;
 
 class fileLoader {
@@ -13,9 +13,6 @@ class fileLoader {
   var coordFileName: string;
   var coordFileType: string;
   var nAtoms: int;
-  var x: list(real);
-  var y: list(real);
-  var z: list(real);
   var atoms: list(Particles.Atom);
   var atomNames: list(string);
   var name: string;
@@ -28,57 +25,49 @@ class fileLoader {
     var style: iostyle;
     var f = open(fileName, iomode.r, hints=IOHINT_SEQUENTIAL);
     var r = f.reader();
-    n = -2;
+    //n = -2;
     var givenN: int;
     var coord: [1..3] real;
     var lastMolecule: string;
     // iterate through the lines
-    for line in f.lines() {
+    for (n, line) in zip(-2.., f.lines()) {
       // first line is a comment, second is the number of atoms we _think_ are there.
       // we don't have to take that as gospel.
       if n == -2 {
         name = line;
-        n += 1;
       } else if n == -1 {
         givenN = line: int;
-        n += 1;
       } else {
-        var lineArray: [1..0] string;
-        for (i,s) in zip(1.., line.split()) {
-          writeln(i,s);
-          select i {
-            when 1 do {atomNames.append(s);}
-            when 2 do {x.append(s : real);}
-            when 3 do {y.append(s : real);}
-            when 4 do {z.append(s : real);}
-          }
-        }
-        
-        var a = new Particles.Atom(name=atomNames[n]);
-        a.pos = [x[n],y[n],z[n]];
-        a.positionInMolecule = n;
+        var lineArray = line.split();
+        var a = this.atomFromXYZ(lineArray, n);
+        writeln(a);
         atoms.append(a);
-        n += 1;
       }
+      this.nAtoms = n;
     }
-    writeln(this.x);
-    if n != givenN {
+    if this.nAtoms != givenN {
       writeln("Hey, your atoms don't match.");
     }
-    this.nAtoms = n;
     var m = new Groupings.molecule();
     m.name = name;
     // just set to the number of atoms.  They're the same numbers.
-    var mA: [1..n] int;
-    for i in 1..n {
+    var mA: [1..this.nAtoms] int;
+    for i in 1..this.nAtoms {
       mA[i] = i;
     }
     //m.setAtoms(mA);
-    for i in 0..n-1 {
+    for i in 0..this.nAtoms-1 {
       m += atoms[i];
     }
     this.molecules.append(m);
     writeln(m);
     this.nMolecules = 1;
+  }
+
+  proc atomFromXYZ(lineArray: [] string, positionInMolecule: int = 0): Particles.Atom {
+    var newAtom = new Particles.Atom(name=lineArray[0]);
+    newAtom.pos = [lineArray[1]: real, lineArray[2]: real, lineArray[3]: real];
+    newAtom.positionInMolecule = positionInMolecule;
+    return newAtom;
   }
 }
