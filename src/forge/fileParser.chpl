@@ -25,7 +25,6 @@ class fileLoader {
     var style: iostyle;
     var f = open(fileName, iomode.r, hints=IOHINT_SEQUENTIAL);
     var r = f.reader();
-    //n = -2;
     var givenN: int;
     var coord: [1..3] real;
     var lastMolecule: string;
@@ -69,5 +68,29 @@ class fileLoader {
     newAtom.pos = [lineArray[1]: real, lineArray[2]: real, lineArray[3]: real];
     newAtom.positionInMolecule = positionInMolecule;
     return newAtom;
+  }
+
+  iter yieldAtomsFromXYZ(fileName: string) {
+    // first, we'll load up the file... we should catch the error.
+    var style: iostyle;
+    var f = open(fileName, iomode.r, hints=IOHINT_SEQUENTIAL);
+    var r = f.reader();
+    var givenN: int;
+    var coord: [1..3] real;
+    var lastMolecule: string;
+    // iterate through the lines
+    for (n, line) in zip(-2.., f.lines()) {
+      // first line is a comment, second is the number of atoms we _think_ are there.
+      // we don't have to take that as gospel.
+      if n == -2 {
+        name = line;
+      } else if n == -1 {
+        givenN = line: int;
+      } else {
+        var lineArray = line.split();
+        this.nAtoms = n;
+        yield this.atomFromXYZ(lineArray, n);
+      }
+    }
   }
 }
