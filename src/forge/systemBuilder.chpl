@@ -65,4 +65,8 @@ class Build {
     }
     return newMolecule;
   }
+
+  proc exportXYZfromSystem(system: SystemMod.System) {
+    
+  }
 }

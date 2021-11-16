@@ -3,12 +3,15 @@ use Numerical.RecordCore as LinAlg;
 use Topology.Particles as Particles;
 use Topology.System as SystemMod;
 use SinFF.Parameters as SIn;
+use fileParser;
 
 class SingleCore {
   var dt: real = 0.002;
   var system: SystemMod.System;
 
   proc run(steps: int, f: borrowed SIn.forceParameters) {
+    var fp = new owned fileParser.fileLoader();
+    fp.startTrajectoryFile(this.system, "trajectory");
     for i in 0..steps-1 {
       for mol in this.system.molecules {
         for atom in mol.atoms {
@@ -19,7 +22,11 @@ class SingleCore {
           }
         }
       }
+      //fp.exportSystemToXYZ(this.system, i : string);
+      this.system.center(0);
+      fp.writeSystemToOpenFile(this.system);
     }
+    fp.closeTrajectoryFile();
   }
 
   proc integrate(ref atom: Particles.Atom, acc: LinAlg.vector) {

@@ -24,7 +24,7 @@ proc main {
   var lamia = new Lamia.SingleCore(0.002, s);
   writeln(lamia.system.molecules[0].atoms[0].pos);
   writeln("STARTING RUN!");
-  lamia.run(10, bonded : SIn.forceParameters);
+  lamia.run(400, bonded : SIn.forceParameters);
   //writeln(lamia.system);
   writeln(lamia.system.molecules[0].atoms[0].pos);
 }

@@ -5,6 +5,7 @@
 use IO;
 use Topology.Particles as Particles;
 use recordCore;
+use Topology.System as SystemMod;
 use Topology.Groups as Groupings;
 use List;
 
@@ -19,6 +20,8 @@ class fileLoader {
   var n: int;
   var molecules: list(Groupings.molecule);
   var nMolecules: int;
+  var f: file;
+  var offset: int;
 
   proc loadXYZ(fileName: string) {
     // first, we'll load up the file... we should catch the error.
@@ -87,5 +90,46 @@ class fileLoader {
         yield this.atomFromXYZ(lineArray, n);
       }
     }
+    r.close();
+    f.close();
+  }
+
+  proc startTrajectoryFile(system: SystemMod.System, fileName: string) {
+    this.f = open(fileName + '.xyz', iomode.cw, hints=IOHINT_SEQUENTIAL);
+    var w = this.f.writer();
+    w.writeln(system.molecules[0].name);
+    w.writeln(system.nAtoms);
+    this.offset = w.offset();
+    w.close();
+  }
+
+    proc writeSystemToOpenFile(system: SystemMod.System) {
+    var w = this.f.writer(start=this.offset);
+    for mol in system.molecules {
+      for atom in mol.atoms {
+        w.writeln(atom.name, ' ', atom.pos[0], ' ', atom.pos[1], ' ', atom.pos[2]);
+      }
+    }
+    this.offset = w.offset();
+    w.close();
+  }
+
+  proc closeTrajectoryFile() {
+    this.f.close();
+  }
+
+  proc exportSystemToXYZ(system: SystemMod.System, fileName: string) {
+    //var style: iostyle;
+    var f = open(fileName + '.xyz', iomode.cw, hints=IOHINT_SEQUENTIAL);
+    var w = f.writer();
+    w.writeln(system.molecules[0].name);
+    w.writeln(system.nAtoms);
+    for mol in system.molecules {
+      for atom in mol.atoms {
+        w.writeln(atom.name, ' ', atom.pos[0], ' ', atom.pos[1], ' ', atom.pos[2]);
+      }
+    }
+    w.close();
+    f.close();
   }
 }
