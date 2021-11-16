@@ -63,12 +63,27 @@ operator +(a: vector, b: vector) {
   return c;
 }
 
+operator +=(a: vector, b: vector) {
+  a.data += b.data;
+}
+operator -=(a: vector, b: vector) {
+  a.data -= b.data;
+}
+
 // This is _part_ of what is necessary for setting the internal array  from an array.
 // check out the page on conversions here: https://chapel-lang.org/docs/language/spec/conversions.html
 // it's where I stole basically all of this, so.
 
 operator =(ref a:vector, b: [] real) {
   a.data = b;
+}
+
+operator +=(ref a:vector, b: [] real) {
+  a.data += b;
+}
+
+operator -=(ref a:vector, b: [] real) {
+  a.data -= b;
 }
 
 // We require this cast operator for proper initialization / casting from an array.

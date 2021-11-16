@@ -1,5 +1,5 @@
 use fileParser;
-use system as SystemMod;
+use Topology.System as SystemMod;
 use Topology.Particles as Particles;
 use Topology.Groups as Groupings;
 
@@ -47,7 +47,10 @@ class Build {
   }
 
   proc build() {
-    return buildMoleculeFromXYZ();
+    var sys = new SystemMod.System(buildMoleculeFromXYZ());
+    sys.center(0);
+    sys.addMolecules(buildMoleculeFromXYZ());
+    return sys;
   }
 
   proc buildMoleculeFromXYZ() {
