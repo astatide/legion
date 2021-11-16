@@ -20,11 +20,11 @@ proc main {
   writeln(s);
   // go like potential or something.
   var bonded : SIn.distance = new SIn.distance(coefficients = new list([0.1]));
-  var nonBonded : SIn.distance = new SIn.distance(coefficients = new list([0.001]));
+  var nonBonded : SIn.brownianFakeDistance = new SIn.brownianFakeDistance(coefficients = new list([0.1]));
   var lamia = new Lamia.SingleCore(0.002, s);
   writeln(lamia.system.molecules[0].atoms[0].pos);
   writeln("STARTING RUN!");
-  lamia.run(400, bonded : SIn.forceParameters);
+  lamia.run(2000, nonBonded : SIn.forceParameters);
   //writeln(lamia.system);
   writeln(lamia.system.molecules[0].atoms[0].pos);
 }

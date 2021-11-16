@@ -15,16 +15,26 @@ class SingleCore {
     for i in 0..steps-1 {
       for mol in this.system.molecules {
         for atom in mol.atoms {
+          var forces: list(LinAlg.vector, parSafe=true);
           for otherMol in this.system.molecules {
             for Otheratom in otherMol.atoms {
-              this.integrate(atom, f.calculate(atom.pos, Otheratom.pos));
+              forces.append(f.calculate(atom.pos, Otheratom.pos));
             }
           }
+          var sumForces: LinAlg.vector = new vector(shape=(3,));
+          for i in forces {
+            sumForces += i;
+          }
+
+          this.integrate(atom, sumForces);
         }
       }
       //fp.exportSystemToXYZ(this.system, i : string);
       this.system.center(0);
       fp.writeSystemToOpenFile(this.system);
+      if (i % 40 == 0) {
+        writeln(i);
+      }
     }
     fp.closeTrajectoryFile();
   }
