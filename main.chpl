@@ -1,7 +1,10 @@
 use fileParser;
 use systemBuilder;
 use Time;
+use List;
 use recordCore;
+use SinFF.Parameters as SIn;
+use Dynamics.Lamia as Lamia;
 
 record aTest {
   var coords: [1..3] real;
@@ -15,6 +18,15 @@ proc main {
   var b = new owned systemBuilder.Build();
   var s = b.build();
   writeln(s);
+  // go like potential or something.
+  var bonded : SIn.distance = new SIn.distance(coefficients = new list([0.1]));
+  var nonBonded : SIn.distance = new SIn.distance(coefficients = new list([0.001]));
+  var lamia = new Lamia.SingleCore(0.002, s);
+  writeln(lamia.system.molecules[0].atoms[0].pos);
+  writeln("STARTING RUN!");
+  lamia.run(10, bonded : SIn.forceParameters);
+  //writeln(lamia.system);
+  writeln(lamia.system.molecules[0].atoms[0].pos);
 }
 
 proc oldTests {

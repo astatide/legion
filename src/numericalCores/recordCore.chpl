@@ -63,10 +63,16 @@ operator +(a: vector, b: vector) {
   return c;
 }
 
-operator +=(a: vector, b: vector) {
+operator -(a: vector, b: vector) {
+  var c = new vector(shape = a.shape);
+  c.data = a.data - b.data;
+  return c;
+}
+
+operator +=(ref a: vector, b: vector) {
   a.data += b.data;
 }
-operator -=(a: vector, b: vector) {
+operator -=(ref a: vector, b: vector) {
   a.data -= b.data;
 }
 
@@ -84,6 +90,24 @@ operator +=(ref a:vector, b: [] real) {
 
 operator -=(ref a:vector, b: [] real) {
   a.data -= b;
+}
+
+operator *(a:vector, b: real) {
+  var c = new vector(shape = a.shape);
+  c.data = a.data * b;
+  return c;
+}
+
+operator *(b: real, a:vector) {
+  var c = new vector(shape = a.shape);
+  c.data = a.data * b;
+  return c;
+}
+
+operator **(a:vector, b: int) {
+  var c = new vector(shape = a.shape);
+  c.data = a.data ** b;
+  return c;
 }
 
 // We require this cast operator for proper initialization / casting from an array.
