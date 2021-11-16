@@ -2,6 +2,8 @@
 use List;
 use particles as Particles;
 use groupings as Groups;
+use SinFF.Parameters as SIn;
+use Numerical.RecordCore as LinAlg;
 
 //record NEWTopology {
 //  var n: int;
@@ -9,11 +11,21 @@ use groupings as Groups;
 //  var bondedForces: [1..n,1..n] owned forceParameters;
 //}
 
+class SystemTopology {
+  var n: int;
+  var atomMass: [1..n] real;
+  var permanentForcesDomain: domain((int, int));
+  var bondedForces: [permanentForcesDomain] list(borrowed SIn.forceParameters);
+  var nonBondedForces: list(borrowed SIn.forceParameters);
+
+}
 
 class System {
   var nMolecules: int = 0;
   var nAtoms: int = 0;
   var molecules: list(Groups.molecule);
+  var topology: owned SystemTopology?; // nil it, because we don't know if/when/what it will be initialized.
+  
 
   proc init(nMolecules: int) {
     // set the number of atoms.
