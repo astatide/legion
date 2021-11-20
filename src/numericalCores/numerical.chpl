@@ -1,3 +1,3 @@
 module Numerical {
-    public import recordCore as RecordCore;
+    public import tupleCore as RecordCore;
 }
