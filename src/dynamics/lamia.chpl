@@ -41,6 +41,8 @@ class SingleCore {
 
   proc integrate(ref atom: Particles.Atom, acc: LinAlg.vector) {
     atom.pos += (atom.vel*dt) + (0.5*acc*dt**2);
+    //var dampingForce = new vector([0.5, 0.5, 0.5]);
     atom.vel += (acc*dt*0.5);
+    atom.vel *= 0.5; //dampingForce;  // this is just a test and wouldn't normally go here.  It'd be part of a ... thing.
   }
 }
