@@ -4,6 +4,7 @@ use Topology.Particles as Particles;
 use Topology.System as SystemMod;
 use SinFF.Parameters as SIn;
 use fileParser;
+use LegionFunctions;
 
 class SingleCore {
   var dt: real = 0.002;

@@ -2,21 +2,12 @@ use List;
 use Topology.System;
 use Numerical.RecordCore as LinAlg;
 use Random;
+use LegionFunctions;
 
 record NEWTopology {
   var n: int;
   var atomMass: [1..n] real;
   var bondedForces: [1..n,1..n] owned forceParameters;
-}
-
-class functionBase {
-  proc __internal__(args...?n) {
-    return 0;
-  }
-
-  proc this(args...?n) {
-    return this.__internal__((...args));
-  }
 }
 
 class forceParameters : functionBase {
