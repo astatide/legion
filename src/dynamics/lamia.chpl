@@ -15,6 +15,7 @@ class SingleCore {
     var applyDamping = new owned dampingForce();
     fp.startTrajectoryFile(this.system, "trajectory");
     for i in 0..steps-1 {
+      var sumForcesList: list(LinAlg.vector, parSafe=true);
       for mol in this.system.molecules {
         for atom in mol.atoms {
           var forces: list(LinAlg.vector, parSafe=true);
@@ -27,8 +28,16 @@ class SingleCore {
           for i in forces {
             sumForces += i;
           }
-          integrate(atom, sumForces);
+          sumForcesList.append(sumForces);
+        }
+      }
+      var c: int = 0;
+      for mol in this.system.molecules {
+        for atom in mol.atoms {
+          // HUGE assumption that these iterate the same; just a quick hack to fix it.
+          integrate(atom, sumForcesList[c]);
           applyDamping(atom);
+          c += 1;
         }
       }
       //fp.exportSystemToXYZ(this.system, i : string);
@@ -45,14 +54,18 @@ class SingleCore {
 class integrator : functionBase {
   var dt: real;
   proc __internal__(ref atom: Particles.Atom, acc: LinAlg.vector) {
+    // leapfrog / verlet
     atom.pos += (atom.vel*dt) + (0.5*acc*dt**2);
     atom.vel += (acc*dt*0.5);
   }
+  // uggghhhhh _apparently_ if we don't use this, it calls the superclass method, regardless of the arguments.  Blagh.
+  proc this(ref atom: Particles.Atom, acc: LinAlg.vector) { this.__internal__(atom, acc); }
 }
 
 class dampingForce : functionBase {
-  var dampingStrength: real = 0.2;
+  var dampingStrength: real = 0.5;
   proc __internal__(ref atom: Particles.Atom) {
+    // bullshit damping force.
     atom.vel *= dampingStrength;
   }
 }
