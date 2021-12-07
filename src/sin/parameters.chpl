@@ -9,22 +9,35 @@ record NEWTopology {
   var bondedForces: [1..n,1..n] owned forceParameters;
 }
 
+class functionBase {
+  proc __internal__(args...?n) {
+    return 0;
+  }
 
-class forceParameters {
+  proc this(args...?n) {
+    return this.__internal__((...args));
+  }
+}
+
+class forceParameters : functionBase {
   var coefficients: list(real);
-  proc calculate(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
+  proc __internal__(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
     return new LinAlg.vector(shape=(3,));
+  }
+
+  proc this(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
+    return this.__internal__(A, B);
   }
 }
 
 class distance : forceParameters {
-  override proc calculate(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
+  override proc __internal__(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
     return 0.5*this.coefficients[0]*(A-B)**2;
   }
 }
 
 class brownianFakeDistance : forceParameters {
-  override proc calculate(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
+  override proc __internal__(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
     var r = [0.1, 0.1, 0.1];
     fillRandom(r);
     r *= 200;

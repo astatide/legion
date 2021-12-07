@@ -11,6 +11,8 @@ class SingleCore {
 
   proc run(steps: int, f: borrowed SIn.forceParameters) {
     var fp = new owned fileParser.fileLoader();
+    var integrate = new owned integrator(dt = dt);
+    var applyDamping = new owned dampingForce();
     fp.startTrajectoryFile(this.system, "trajectory");
     for i in 0..steps-1 {
       for mol in this.system.molecules {
@@ -18,15 +20,15 @@ class SingleCore {
           var forces: list(LinAlg.vector, parSafe=true);
           for otherMol in this.system.molecules {
             for Otheratom in otherMol.atoms {
-              forces.append(f.calculate(atom.pos, Otheratom.pos));
+              forces.append(f(atom.pos, Otheratom.pos));
             }
           }
           var sumForces: LinAlg.vector = new vector(shape=(3,));
           for i in forces {
             sumForces += i;
           }
-
-          this.integrate(atom, sumForces);
+          integrate(atom, sumForces);
+          applyDamping(atom);
         }
       }
       //fp.exportSystemToXYZ(this.system, i : string);
@@ -38,11 +40,19 @@ class SingleCore {
     }
     fp.closeTrajectoryFile();
   }
+}
 
-  proc integrate(ref atom: Particles.Atom, acc: LinAlg.vector) {
+class integrator : functionBase {
+  var dt: real;
+  proc __internal__(ref atom: Particles.Atom, acc: LinAlg.vector) {
     atom.pos += (atom.vel*dt) + (0.5*acc*dt**2);
-    //var dampingForce = new vector([0.5, 0.5, 0.5]);
     atom.vel += (acc*dt*0.5);
-    atom.vel *= 0.5; //dampingForce;  // this is just a test and wouldn't normally go here.  It'd be part of a ... thing.
+  }
+}
+
+class dampingForce : functionBase {
+  var dampingStrength: real = 0.2;
+  proc __internal__(ref atom: Particles.Atom) {
+    atom.vel *= dampingStrength;
   }
 }
