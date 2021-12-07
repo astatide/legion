@@ -1,5 +1,6 @@
 module LegionFunctions {
   use List;
+  use Numerical.RecordCore;
 
   enum FunctionalOperators {
     R
@@ -8,6 +9,11 @@ module LegionFunctions {
   union functionCachedResult {
     var i: int;
     var r: real;
+
+  }
+
+  record wrappedUnionFunctionCachedResult {
+
   }
 
   class functionBase {

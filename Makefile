@@ -3,8 +3,8 @@ PYTHONC:=`python3-config --cflags`
 PYTHONL:=`python3-config --ldflags`
 BLAS:=-I /usr/include/x86_64-linux-gnu -L /usr/lib/x86_64-linux-gnu -lblas
 MODULES:=-M src -M src/topology -M src/forge -M src/numericalCores
-FILES:=main.chpl src/topology/topology.chpl src/numericalCores/numerical.chpl src/forge/forge.chpl src/sin/sin.chpl src/dynamics/dynamics.chpl src/numericalCores/fcfunctional.chpl #src/forge/fileParser.chpl src/forge/systemBuilder.chpl src/topology/atom.chpl src/topology/groupings.chpl src/topology/system.chpl
-TESTS:=../../../src/topology/topology.chpl ../../../src/numericalCores/numerical.chpl ../../../src/forge/forge.chpl ../../../src/sin/sin.chpl ../../../src/dynamics/dynamics.chpl ../../../src/numericalCores/fcfunctional.chpl
+LEGDIR:=`pwd`
+FILES:=$(LEGDIR)/src/topology/topology.chpl $(LEGDIR)/src/numericalCores/numerical.chpl $(LEGDIR)/src/forge/forge.chpl $(LEGDIR)/src/sin/sin.chpl $(LEGDIR)/src/dynamics/dynamics.chpl $(LEGDIR)/src/numericalCores/legionFunctions.chpl
 
 all:
 	make legion
@@ -13,10 +13,10 @@ clean:
 	rm legion
 
 legion:
-	chpl -o legion -L /usr/local/lib -I /usr/local/include $(BLAS) $(MODULES) $(FILES) --ccflags "-w -lpthread -I $(NUMPY) $(PYTHONC)" --ldflags "-lpthread -v $(PYTHONL)"
+	chpl -o legion -L /usr/local/lib -I /usr/local/include $(BLAS) $(MODULES) $(FILES) $(LEGDIR)/main.chpl --ccflags "-w -lpthread -I $(NUMPY) $(PYTHONC)" --ldflags "-lpthread -v $(PYTHONL)"
 
 legionNoPy:
-	chpl -o legion -L /usr/local/lib -I /usr/local/include $(BLAS) $(MODULES) $(FILES)
+	chpl -o legion -L /usr/local/lib -I /usr/local/include $(BLAS) $(MODULES) $(FILES) $(LEGDIR)/main.chpl
 
 test:
-	start_test -compopts "$(BLAS) $(MODULES) $(TESTS)" src/test/
+	start_test -compopts "$(BLAS) $(MODULES) $(FILES)" src/test/
