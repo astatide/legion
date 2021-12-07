@@ -69,12 +69,15 @@ module LegionFunctions {
 
   class functionBase {
     var cachedResult: wrappedUnionFunctionCachedResult; // = new wrappedUnionFunctionCachedResult(1);
-    var applicableOperators: list(FunctionalOperators);
+    var applicableOperators: list(FunctionalOperators) = new list([FunctionalOperators.R]);
     proc __internal__(args...?n) {
       return 0;
     }
+    // see what we're doing here?  Note it well!
     proc this(args...?n) {
-      return this.__internal__((...args));
+      var rtn = this.__internal__((...args));
+      cachedResult = new wrappedUnionFunctionCachedResult(rtn);
+      return rtn;
     }
   }
 
@@ -82,7 +85,9 @@ module LegionFunctions {
     use FunctionalOperators;
     select a {
       when R {
-        writeln("a wee tiny test!");
+        if b.applicableOperators.contains(R) {
+          writeln("a wee tiny test!");
+        }
       }
     }
     return b.cachedResult;
