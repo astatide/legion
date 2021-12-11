@@ -12,13 +12,13 @@ record NEWTopology {
 
 class forceParameters : functionBase {
   var coefficients: list(real);
-  proc __internal__(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
+  override proc __internal__(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
     return new LinAlg.vector(shape=(3,));
   }
 
-  proc this(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
-    return this.__internal__(A, B);
-  }
+  //override proc this(A: LinAlg.vector, B: LinAlg.vector): LinAlg.vector {
+  //  return this.__internal__(A, B);
+  //}
 }
 
 class distance : forceParameters {

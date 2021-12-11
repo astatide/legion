@@ -54,18 +54,18 @@ class SingleCore {
 
 class integrator : functionBase {
   var dt: real;
-  proc __internal__(ref atom: Particles.Atom, acc: LinAlg.vector) {
+  override proc __internal__(ref atom: Particles.Atom, acc: LinAlg.vector) {
     // leapfrog / verlet
     atom.pos += (atom.vel*dt) + (0.5*acc*dt**2);
     atom.vel += (acc*dt*0.5);
   }
   // uggghhhhh _apparently_ if we don't use this, it calls the superclass method, regardless of the arguments.  Blagh.
-  proc this(ref atom: Particles.Atom, acc: LinAlg.vector) { this.__internal__(atom, acc); }
+  //proc this(ref atom: Particles.Atom, acc: LinAlg.vector) { this.__internal__(atom, acc); }
 }
 
 class dampingForce : functionBase {
   var dampingStrength: real = 0.5;
-  proc __internal__(ref atom: Particles.Atom) {
+  override proc __internal__(ref atom: Particles.Atom) {
     // bullshit damping force.
     atom.vel *= dampingStrength;
   }
