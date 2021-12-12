@@ -3,11 +3,12 @@
 // right now, it'll just load XYZ files.
 
 use IO;
-use Topology.Particles as Particles;
-use recordCore;
-use Topology.System as SystemMod;
-use Topology.Groups as Groupings;
 use List;
+
+private use Legion.Topology.Particles as Particles;
+private use Legion.Types.RecordCore;
+private use Legion.Topology.System as SystemMod;
+private use Legion.Topology.Groups as Groupings;
 
 class fileLoader {
   // we shouldn't need to init anything, yeah?

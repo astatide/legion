@@ -1,10 +1,11 @@
-use fileParser;
-use systemBuilder;
 use Time;
 use List;
-use recordCore;
-use SinFF.Parameters as SIn;
-use Dynamics.Lamia as Lamia;
+
+use Legion.Forge.fileParser;
+use Legion.Forge.systemBuilder;
+use Legion.Types.RecordCore;
+use Legion.SIn.Parameters as SIn;
+use Legion.Dynamics.Lamia as Lamia;
 
 record aTest {
   var coords: [1..3] real;

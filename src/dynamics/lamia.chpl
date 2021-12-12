@@ -1,10 +1,11 @@
 use List;
-use Numerical.RecordCore as LinAlg;
-use Topology.Particles as Particles;
-use Topology.System as SystemMod;
-use SinFF.Parameters as SIn;
-use fileParser;
-use LegionFunctions;
+
+private use Legion.Types.RecordCore as LinAlg;
+private use Legion.Topology.Particles as Particles;
+private use Legion.Topology.System as SystemMod;
+private use Legion.SIn.Parameters as SIn;
+private use Legion.Forge.FileParser;
+private use Legion.Types.Functions;
 
 class SingleCore {
   var dt: real = 0.002;
@@ -54,7 +55,7 @@ class SingleCore {
 
 class integrator : functionBase {
   var dt: real;
-  override proc __internal__(ref atom: Particles.Atom, acc: LinAlg.vector) {
+  proc this(ref atom: Particles.Atom, acc: LinAlg.vector) {
     // leapfrog / verlet
     atom.pos += (atom.vel*dt) + (0.5*acc*dt**2);
     atom.vel += (acc*dt*0.5);
@@ -65,7 +66,7 @@ class integrator : functionBase {
 
 class dampingForce : functionBase {
   var dampingStrength: real = 0.5;
-  override proc __internal__(ref atom: Particles.Atom) {
+  proc this(ref atom: Particles.Atom) {
     // bullshit damping force.
     atom.vel *= dampingStrength;
   }

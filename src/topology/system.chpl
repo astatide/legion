@@ -1,21 +1,17 @@
 // this stores our coordinates and our topology
 use List;
-use particles as Particles;
-use groupings as Groups;
-use SinFF.Parameters as SIn;
-use Numerical.RecordCore as LinAlg;
 
-//record NEWTopology {
-//  var n: int;
-//  var atomMass: [1..n] real;
-//  var bondedForces: [1..n,1..n] owned forceParameters;
-//}
+private use Legion.Topology.Particles as Particles;
+private use Legion.Topology.Groups as Groups;
+private use Legion.SIn.Parameters as SIn;
+private use Legion.Types.RecordCore as LinAlg;
+
 
 class SystemTopology {
   var n: int;
   var atomMass: [1..n] real;
-  var permanentForcesDomain: domain((int, int));
-  var bondedForces: [permanentForcesDomain] list(borrowed SIn.forceParameters);
+  var pairwiseForcesDomain: domain((int, int));
+  var bondedForces: [pairwiseForcesDomain] list(borrowed SIn.forceParameters);
   var nonBondedForces: list(borrowed SIn.forceParameters);
 
 }

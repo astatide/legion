@@ -1,7 +1,7 @@
-use fileParser;
-use Topology.System as SystemMod;
-use Topology.Particles as Particles;
-use Topology.Groups as Groupings;
+private use Legion.Forge.FileParser;
+private use Legion.Topology.System as SystemMod;
+private use Legion.Topology.Particles as Particles;
+private use Legion.Topology.Groups as Groupings;
 
 
 // we assume everything in the XYZ is one molecule, for the moment.

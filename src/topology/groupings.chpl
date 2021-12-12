@@ -1,5 +1,6 @@
 use List;
-use particles as Particles;
+
+private use Legion.Topology.Particles as Particles;
 
 // these are simply called groups; they _may_ be molecules, but they are also non bonded groups of atoms
 // it's a calculation convenience in a lot of ways; it'll give us a 'window' of atoms.

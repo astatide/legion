@@ -1,5 +1,6 @@
 use List;
-use Numerical.RecordCore;
+
+private use Legion.Types.RecordCore;
 
 record Atom {
   var name: string;
