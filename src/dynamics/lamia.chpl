@@ -26,7 +26,7 @@ class SingleCore {
               forces.append(f(atom.pos, Otheratom.pos));
             }
           }
-          var sumForces: LinAlg.vector = new vector(shape=(3,));
+          var sumForces: LinAlg.vector = new LinAlg.vector(shape=(3,));
           for i in forces {
             sumForces += i;
           }
