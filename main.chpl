@@ -1,9 +1,9 @@
 use Time;
 use List;
 
-use Legion.Forge.fileParser;
-use Legion.Forge.systemBuilder;
-use Legion.Types.RecordCore;
+use Legion.Forge.FileParser;
+use Legion.Forge.SystemBuilder;
+use Legion.Types.TupleCore as LinAlg;
 use Legion.SIn.Parameters as SIn;
 use Legion.Dynamics.Lamia as Lamia;
 

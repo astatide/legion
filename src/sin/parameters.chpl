@@ -2,7 +2,7 @@ use List;
 use Random;
 
 private use Legion.Topology.System;
-private use Legion.Types.RecordCore as LinAlg;
+private use Legion.Types.TupleCore as LinAlg;
 private use Legion.Types.Functions;
 
 class forceParameters : functionBase {

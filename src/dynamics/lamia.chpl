@@ -1,11 +1,11 @@
 use List;
 
-private use Legion.Types.RecordCore as LinAlg;
+private use Legion.Types.TupleCore as LinAlg;
+private use Legion.Types.Functions;
 private use Legion.Topology.Particles as Particles;
 private use Legion.Topology.System as SystemMod;
 private use Legion.SIn.Parameters as SIn;
 private use Legion.Forge.FileParser;
-private use Legion.Types.Functions;
 
 class SingleCore {
   var dt: real = 0.002;

@@ -4,7 +4,7 @@ use List;
 private use Legion.Topology.Particles as Particles;
 private use Legion.Topology.Groups as Groups;
 private use Legion.SIn.Parameters as SIn;
-private use Legion.Types.RecordCore as LinAlg;
+private use Legion.Types.TupleCore as LinAlg;
 
 
 class SystemTopology {

@@ -6,7 +6,7 @@ use IO;
 use List;
 
 private use Legion.Topology.Particles as Particles;
-private use Legion.Types.RecordCore;
+private use Legion.Types.TupleCore as LinAlg;
 private use Legion.Topology.System as SystemMod;
 private use Legion.Topology.Groups as Groupings;
 

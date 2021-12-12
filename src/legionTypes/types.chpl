@@ -1,4 +1,4 @@
 module Types {
-    public import tupleCore as RecordCore;
+    public import tupleCore as TupleCore;
     public import LegionFunctions as Functions;
 }

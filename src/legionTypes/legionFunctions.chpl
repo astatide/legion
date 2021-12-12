@@ -1,7 +1,7 @@
 module LegionFunctions {
   use List;
 
-  private use Legion.Types.RecordCore as LinAlg;
+  private use Legion.Types.TupleCore as LinAlg;
   private use Legion.Topology.Particles as Particles;
 
   enum FunctionalOperators {

@@ -1,6 +1,6 @@
 use List;
 
-private use Legion.Types.RecordCore;
+private use Legion.Types.TupleCore;
 
 record Atom {
   var name: string;
